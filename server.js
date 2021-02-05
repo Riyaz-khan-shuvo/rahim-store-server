@@ -1,20 +1,22 @@
 const express = require('express')
-const bodyParser = require('body-parser')
-const cors = require('cors')
-const ObjectId = require('mongodb').ObjectId;
-
-
 require('dotenv').config()
+require('mongodb')
+const cors = require('cors');
+const bodyParser = require('body-parser')
+const objectId = require('mongodb').ObjectID;
 const MongoClient = require('mongodb').MongoClient;
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.q3vod.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+
+const port = 5000;
+
+
 const app = express()
-const port = 5000
+
 
 app.use(cors())
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: false }))
 
 
 app.get('/', (req, res) => {
@@ -23,7 +25,6 @@ app.get('/', (req, res) => {
 
 
 client.connect(err => {
-
   const productsCollection = client.db(`${process.env.DB_NAME}`).collection("products");
   console.log("Database Connected Successfully!!!")
 
